@@ -2,6 +2,6 @@ package currency;
 
 public interface Currency {
 
-	String getName();
-	String getExchangeRate();
+	String getName(); //numele valutei
+	String getExchangeRate(); //rata de schimb
 }

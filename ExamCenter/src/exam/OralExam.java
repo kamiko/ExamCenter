@@ -8,7 +8,6 @@ import examrooms.StandardRoom;
 
 public abstract class OralExam implements Exam, Serializable{
 
-	protected Date examDate;
 	protected String examName;
 	protected double examPrice;
 	protected String examLevel;
@@ -22,13 +21,6 @@ public abstract class OralExam implements Exam, Serializable{
 		return new StandardRoom();
 		
 	} 
-	
-	public Date getExamDate(){
-		return examDate;
-	}
-	public void setExamDate(Date d){
-		examDate=d;
-	}
 	
 	public void setName(String name){
 		examName=name;

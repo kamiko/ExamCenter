@@ -14,13 +14,13 @@ import student.Student;
 import exam.Exam;
 
 public class ExamCenter {
-	private ArrayList<Exam> examList;
-	private static ExamCenter examCenter;
-	private static ExamRegistration examRegister;
-	
+	private ArrayList<Exam> examList; // lista de examene
+	private static ExamCenter examCenter; //pt singleton
+	private static ExamRegistration examRegister;//registru inregistrare examene
+
 	private ExamCenter() {
-	examList=new ArrayList<Exam>();
-	examRegister= new ExamRegistration();
+		examList = new ArrayList<Exam>();
+		examRegister = new ExamRegistration();
 	}
 
 	public static ExamCenter getInstance() {
@@ -41,52 +41,34 @@ public class ExamCenter {
 	}
 
 	public boolean searchExam(Exam e) {
-		System.out.println("Searching for exam " + e.getName() + " at our center");
-	//if ()
-		boolean ok=false;
-		for (Exam ex : examList) 
-			if (e.equals(ex))
-			{
+		System.out.println("Searching for exam " + e.getName()
+				+ " at our center");
+		boolean ok = false;
+		for (Exam ex : examList)
+			if (e.equals(ex)) {
 				System.out
-				.println("The exam "
-						+ e.getName()
-						+ " is registered at our exam center!. \n You can register for it! \n");
-				ok=true;
-					return true;
+						.println("The exam "
+								+ e.getName()
+								+ " is registered at our exam center!. \n You can register for it! \n");
+				ok = true;
+				return true;
 			}
-		
-		if (ok==false) {
+
+		if (ok == false) {
 			System.out.println("The exam " + e.getName()
-					
 					+ " could not be found! \n");
 			return false;
 		}
-		
+
 		return false;
-		
-		/*if (examList.contains(e))
-			{
-			System.out
-					.println("The exam "
-							+ e.getName()
-							+ " is registered at our exam center!. \n You can register for it! \n");
-			return true;
-			}
-		
-		else
-			{
-			System.out.println("The exam " + e.getName()
-			
-					+ " could not be found! \n");
-			return false;
-			}*/
-		
+
 	}
 
+	// salvarea examenelor disponibile in fisier
 	public void saveExams(File f) {
 		FileOutputStream fs = null;
 		ObjectOutputStream os = null;
-		try{
+		try {
 			try {
 				fs = new FileOutputStream(f);
 			} catch (FileNotFoundException e1) {
@@ -98,37 +80,13 @@ public class ExamCenter {
 			} catch (IOException e1) {
 				throw new IOException();
 			}
-			
-			for (Exam e : examList)
-				
-					os.writeObject(e);
-				
-		}
-		catch(IOException ex) {
-			System.out.println("Problem saving data! Please contact the admin");
-		}
-		 finally {
-				if (os != null)
-					try {
-						os.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-		 }
-		
-		
-		/*try {
-			fs = new FileOutputStream(f);
 
-			os = new ObjectOutputStream(fs);
 			for (Exam e : examList)
+
 				os.writeObject(e);
-		} catch (FileNotFoundException e1) {
 
-			e1.printStackTrace();
-		} catch (IOException e1) {
-
-			e1.printStackTrace();
+		} catch (IOException ex) {
+			System.out.println("Problem saving data! Please contact the admin");
 		} finally {
 			if (os != null)
 				try {
@@ -136,55 +94,51 @@ public class ExamCenter {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-		}*/
-		
+		}
+
 	}
 
+	// citirea examenelor din fisier
 	public void readExams(File f) {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		examList.clear();
-		Exam exam=null;
-		Object obj=null;
-		
-		try{
-			try {
-			fis = new FileInputStream(f);
-		} catch (FileNotFoundException e) {
-			
-			throw new IOException();
-		}
+		Exam exam = null;
+		Object obj = null;
+
 		try {
-			ois = new ObjectInputStream(fis);
-		} catch (IOException e) {
-			
-			throw new IOException();
-		}
-		while(true) 
-			{
-				
-					try {
-						exam = (Exam) ois.readObject();
-					} catch (ClassNotFoundException e) {
-						throw new IOException();
-					}
-					
-					//System.out.println("read one exam!");
-					 examList.add(exam);
-					// System.out.println("added one exam!");
-				
-					 
-				
+			try {
+				fis = new FileInputStream(f);
+			} catch (FileNotFoundException e) {
+
+				throw new IOException();
 			}
-		}
-		catch (EOFException e) {
+			try {
+				ois = new ObjectInputStream(fis);
+			} catch (IOException e) {
+
+				throw new IOException();
+			}
+			while (true) {
+
+				try {
+					exam = (Exam) ois.readObject();
+				} catch (ClassNotFoundException e) {
+					throw new IOException();
+				}
+
+				// System.out.println("read one exam!");
+				examList.add(exam);
+				// System.out.println("added one exam!");
+
+			}
+		} catch (EOFException e) {
 			System.out.println("Finished reading from file!");
-		}
-		catch(IOException ex){
-			System.out.println("Problems reading from file! Talk with the administrator.");
-			
-		} 
-		finally {
+		} catch (IOException ex) {
+			System.out
+					.println("Problems reading from file! Talk with the administrator.");
+
+		} finally {
 			try {
 				if (ois != null)
 					ois.close();
@@ -193,64 +147,28 @@ public class ExamCenter {
 				e.printStackTrace();
 			}
 		}
-		
-	
-		/*try {
-			fis = new FileInputStream(f);
-			ois = new ObjectInputStream(fis);
-			//while((obj = ois.readObject()) != null)
-			while(true) 
-				{
-				exam = (Exam) ois.readObject();
-				System.out.println("read one exam!");
-				 examList.add(exam);
-				 System.out.println("added one exam!");
-			}
-		   
-			
-		} catch (FileNotFoundException e) {
 
-			e.printStackTrace();
-		}  catch (ClassNotFoundException e) {
-
-			e.printStackTrace();
-		}
-		catch(EOFException e){
-			System.out.println("Reached end of file!\n");
-			//e.printStackTrace();
-		}
-		catch (IOException e) {
-
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				if (ois != null)
-					ois.close();
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-		}
-*/
-		
 	}
 
+	// printare in consola
 	public void listExams() {
 		if (!examList.isEmpty()) {
 			System.out.println("Our exam center has the following exams:");
 			for (Exam e : examList) {
 				System.out.println("========================================");
-				System.out.println("Exam " + e.getName() + " -> " + e.getType());
-				System.out.println(e.getLevel() + " , " + e.getPrice());
+				System.out
+						.println("Exam " + e.getName() + " -> " + e.getType());
+				System.out.println(e.getLevel() + " , " + e.getPrice() + " "
+						+ e.getCurrency());
+				System.out.println(e.getCurrency().getExchangeRate());
+				
 				System.out.println("Held at " + e.getRoom());
 			}
 			System.out.println();
-			
-		}
-		else System.out.println("Currently our exam center has no exams!\n");
 
-		
+		} else
+			System.out.println("Currently our exam center has no exams!\n");
+
 	}
 
 	public ArrayList<Exam> getExamList() {
@@ -260,33 +178,25 @@ public class ExamCenter {
 	public void setExamList(ArrayList<Exam> examList) {
 		this.examList = examList;
 	}
-	
-	public void registerForExam(Exam ex, Student s){
+
+	public void registerForExam(Exam ex, Student s) {
 		examRegister.registerForExam(ex, s);
 	}
-	
-	public void listExamRegistration(){
+
+	// printare in consola a hashmapului de studenti inscrisi la examene din
+	// centru
+	public void listExamRegistration() {
 		examRegister.listRegisteredStudents();
-		
+
 	}
-	
-	public void saveRegistrations(File file){
+
+	// salvarea studentilor inregistrati si a examenelor aferente intr-un fisier
+	public void saveRegistrations(File file) {
 		examRegister.saveRegistrations(file);
 	}
-	
-	
-	public void unregisterForExam(Exam ex, Student s){
+
+	public void unregisterForExam(Exam ex, Student s) {
 		examRegister.unregisterForExam(ex, s);
 	}
-	
-	/*public boolean searchRegisteredStudent(Exam ex, Student s) {
-		boolean b=examRegister.searchRegisteredStudent(ex, s);
-		return b;
-	}
-	*/
-	
-	/*public void readRegistrations(File file){
-		examRegister.readRegistrations(file);
-	}*/
-	
+
 }

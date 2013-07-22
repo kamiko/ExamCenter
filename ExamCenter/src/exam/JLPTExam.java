@@ -15,7 +15,7 @@ public class JLPTExam extends WrittenExam{
 
 	@Override
 	public double getPrice() {
-		examPrice=150;
+		examPrice=1500;
 		return examPrice;
 	}
 

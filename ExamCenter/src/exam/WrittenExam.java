@@ -7,7 +7,6 @@ import examrooms.ExamHall;
 import examrooms.ExamRoom;
 
 public abstract class WrittenExam implements Exam,Serializable{
-	protected Date examDate;
 	protected String examName;
 	protected double examPrice;
 	protected String examLevel;
@@ -22,12 +21,7 @@ public abstract class WrittenExam implements Exam,Serializable{
 		
 	} 
 	
-	public Date getExamDate(){
-		return examDate;
-	}
-	public void setExamDate(Date d){
-		examDate=d;
-	}
+	
 	public void setName(String name){
 		examName=name;
 	}

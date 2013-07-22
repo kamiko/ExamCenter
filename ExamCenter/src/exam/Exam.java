@@ -23,6 +23,5 @@ public interface Exam {
 	
 	public Currency getCurrency(); //exam price currency
 	
-	public Date getExamDate();//exam date
-	public void setExamDate(Date d);// set exam date
+	
 }
